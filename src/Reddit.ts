@@ -4,6 +4,9 @@ import { URLSearchParams } from 'url';
 import Post from './Models/Post';
 import Comment from './Models/Comment';
 
+import IResponse from './Interfaces/IResponse';
+import IAccessToken from './Interfaces/IAccessToken';
+
 export default class Reddit {
 	
 	private AUTH_URL: string  = 'https://www.reddit.com';
@@ -30,7 +33,7 @@ export default class Reddit {
 		this.UserAgent = args.UserAgent;
 	}
 	
-	public async GetBearerToken() : Promise<any> {
+	public async GetBearerToken() : Promise<IAccessToken> {
 		
 		var UrlEnconded = new URLSearchParams();
 		UrlEnconded.append('grant_type', 'password');
@@ -47,7 +50,7 @@ export default class Reddit {
 			}
 		});
 		
-		return await response.json();
+		return await response.json() as IAccessToken;
 		
 	}
 	
@@ -111,17 +114,8 @@ export default class Reddit {
 		return await response.json();
 	}
 
-	public async SubmitPostInSubReddit(BearerToken: string, post: Post): Promise<string> {
-		
-	
-		// let UrlEnconded = new URLSearchParams();
-		// UrlEnconded.append('sr', 'TestApiRedditDev');
-		// UrlEnconded.append('url', 'https://www.reddit.com/r/TestApiRedditDev');
-		// UrlEnconded.append('resubmit', 'true');
-		// UrlEnconded.append('text', '10');
-		// UrlEnconded.append('title', 'Teste 000001');
-		// UrlEnconded.append('uh', '1ogbnxqyzf6ca5f5036e67c7fdb389b0621d1134264dd30451');
-		
+	public async SubmitPostInSubReddit(BearerToken: string, post: Post): Promise<IResponse> {
+				
 		let UrlEnconded = new URLSearchParams();
 		
 		if(post.sr != null)
@@ -143,6 +137,9 @@ export default class Reddit {
 		if(post.uh != null)
 			UrlEnconded.append('uh', `${post.uh}`);
 		
+		if(post.kind != null)
+			UrlEnconded.append('kind', `${post.kind}`);
+		
 		UrlEnconded.append('api_type', 'json');
 		
 		
@@ -156,7 +153,7 @@ export default class Reddit {
 			body: UrlEnconded
 		});
 		
-		return await response.json();
+		return await response.json() as IResponse;
 		
 	}
 

@@ -16,7 +16,7 @@ export default class Post {
 	
 	public resubmit?: boolean;
 	
-	//public richtext_json:? string;
+	public richtext_json?: string;
 	
 	public sendreplies?: string;
 	
@@ -30,16 +30,17 @@ export default class Post {
 	
 	public uh: string;
 	
-	public url: string;
+	public url?: string;
 	
 	public  video_poster_url?: string;
 	
-	constructor(sr: string, title: string, text: string, uh: string, url: string){
+	constructor(sr: string, title: string, text: string, uh: string, url: string, kind: string){
 		this.sr = sr;
 		this.title = title;
 		this.text = text;
 		this.uh = uh;
 		this.url = url;
+		this.kind = kind;
 	}
 	
 }
