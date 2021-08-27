@@ -1,5 +1,6 @@
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
+import Post from './Models/Post';
 
 export default class Reddit {
 	
@@ -108,7 +109,51 @@ export default class Reddit {
 		return await response.json();
 	}
 
+	public async SubmitPostInSubReddit(BearerToken: string, post: Post): Promise<string> {
+		
 	
+		// let UrlEnconded = new URLSearchParams();
+		// UrlEnconded.append('sr', 'TestApiRedditDev');
+		// UrlEnconded.append('url', 'https://www.reddit.com/r/TestApiRedditDev');
+		// UrlEnconded.append('resubmit', 'true');
+		// UrlEnconded.append('text', '10');
+		// UrlEnconded.append('title', 'Teste 000001');
+		// UrlEnconded.append('uh', '1ogbnxqyzf6ca5f5036e67c7fdb389b0621d1134264dd30451');
+		
+		let UrlEnconded = new URLSearchParams();
+		
+		if(post.sr != null)
+			UrlEnconded.append('sr', `${post.sr}`);
+		
+		if(post.url != null)
+			UrlEnconded.append('url', `${post.url}`);
+		
+		if(post.resubmit != null)
+			UrlEnconded.append('resubmit', `${post.sr}`);
+		
+		if(post.text != null)
+			UrlEnconded.append('text', `${post.text}`);
+		
+		if(post.title != null)
+			UrlEnconded.append('title', `${post.title}`);
+		
+		if(post.uh != null)
+			UrlEnconded.append('uh', `${post.uh}`);
+		
+		
+		let response = await fetch(`${this.URL_API}/api/submit`, {
+			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`,
+				'X-Modhash': `${post.uh}`
+			},
+			body: UrlEnconded
+		});
+		
+		return await response.json();
+		
+	}
 
 	public async GetModHash() : Promise<any> {
 		
