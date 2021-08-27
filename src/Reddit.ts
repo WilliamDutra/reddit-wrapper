@@ -1,6 +1,8 @@
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
+
 import Post from './Models/Post';
+import Comment from './Models/Comment';
 
 export default class Reddit {
 	
@@ -134,11 +136,14 @@ export default class Reddit {
 		if(post.text != null)
 			UrlEnconded.append('text', `${post.text}`);
 		
+				
 		if(post.title != null)
 			UrlEnconded.append('title', `${post.title}`);
 		
 		if(post.uh != null)
 			UrlEnconded.append('uh', `${post.uh}`);
+		
+		UrlEnconded.append('api_type', 'json');
 		
 		
 		let response = await fetch(`${this.URL_API}/api/submit`, {
@@ -166,6 +171,37 @@ export default class Reddit {
 			method: 'POST',
 			headers: {
 				'User-Agent': `${this.UserAgent}`
+			},
+			body: UrlEnconded
+		});
+		
+		return response.json();
+	}
+
+	public async SendCommentInPost(BearerToken: string, comment: Comment) : Promise<any> {
+		
+		let UrlEnconded = new URLSearchParams();
+		UrlEnconded.append('api_type', 'json');
+		
+		
+		if(comment.text != null)
+			UrlEnconded.append('text', `${comment.text}`);
+		
+		if(comment.thing_id != null)
+			UrlEnconded.append('thing_id', `${comment.thing_id}`);
+		
+		if(comment.return_rtjson != null)
+			UrlEnconded.append('return_rtjson', `${comment.return_rtjson}`);
+		
+		if(comment.uh != null)
+			UrlEnconded.append('uh', `${comment.uh}`);
+		
+		let response = await fetch(`${this.URL_API}/api/comment`, {
+			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`,
+				'X-Modhash': `${comment.uh}`
 			},
 			body: UrlEnconded
 		});
