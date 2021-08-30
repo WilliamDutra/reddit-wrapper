@@ -29,12 +29,12 @@ export default class Reddit {
 	
 	private UserAgent: string;
 	
-	constructor(args: any) {		
-		this.Username = args.Username;
-		this.Password = args.Password;
-		this.ClientId = args.ClientId;
-		this.SecretId = args.SecretId;
-		this.UserAgent = args.UserAgent;
+	constructor(Username: string, Password: string, ClientId: string, SecretId: string, UserAgent: string) {		
+		this.Username  = Username;
+		this.Password  = Password;
+		this.ClientId  = ClientId;
+		this.SecretId  = SecretId;
+		this.UserAgent = UserAgent;
 	}
 	
 	public async GetBearerToken() : Promise<IAccessToken> {
@@ -122,7 +122,7 @@ export default class Reddit {
 		let result: IPost =  await response.json() as IPost;
 		return result;
 	}
-	
+		
 	public async SearchSubReddit(BearerToken: string, Name: string) : Promise<any> {
 				
 		let response = await fetch(`${this.URL_API}/subreddits/search?q=${encodeURI(Name)}`, {
