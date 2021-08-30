@@ -1,9 +1,13 @@
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
+import * as fs from 'fs';
+import { pipeline }  from 'stream';
+import { promisify }  from 'util';
 
 import Post from './Models/Post';
 import Comment from './Models/Comment';
 
+import IPost from './Interfaces/IPost';
 import IResponse from './Interfaces/IResponse';
 import IAccessToken from './Interfaces/IAccessToken';
 
@@ -50,7 +54,8 @@ export default class Reddit {
 			}
 		});
 		
-		return await response.json() as IAccessToken;
+		let result: IAccessToken =  await response.json() as IAccessToken;
+		return result;
 		
 	}
 	
@@ -65,7 +70,7 @@ export default class Reddit {
 			}
 		});
 		
-		return await response.json();
+		return await response.json() as IAccessToken;
 	}
 	
 	public async GetInfoSubReddit(BearerToken: string, Subreddit: string) : Promise<any> {
@@ -83,7 +88,7 @@ export default class Reddit {
 		
 	}
 	
-	public async  GetNewPostsOfSubReddit(BearerToken: string, Subreddit: string): Promise<any> {
+	public async  GetNewPostsOfSubReddit(BearerToken: string, Subreddit: string): Promise<IPost> {
 		
 		//`${this.URL_API}/r/${Subreddit}/new?sort=rising&limit=2`
 		
@@ -96,7 +101,9 @@ export default class Reddit {
 			}
 		});
 		
-		return await response.json();
+		
+		let result: IPost =  await response.json() as IPost;
+		return result;
 		
 	}
 	
@@ -205,5 +212,28 @@ export default class Reddit {
 		
 		return response.json();
 	}
+
+	public ExtractLinkToVideo(texto: string) : any {
+		
+		let patternVideo = /https:\/\/reddit\.com\/link\/.*\/player/gm;
+		
+		return texto.match(patternVideo) || null;
+		
+	}
+	
+	public async Download(Url: string, Path: string, Extensions: string) : Promise<any> {
+		
+		let streamPipeline = promisify(pipeline);
+		
+		let DataVigente = new Date();
+		let nameFile = `${DataVigente.getDate()}-${DataVigente.getMonth()}-${DataVigente.getFullYear()}_${DataVigente.getHours()}${DataVigente.getMinutes()}.${Extensions}`;
+		
+		let response = await fetch(Url);
+		streamPipeline(response.body, fs.createWriteStream(`${Path}\\${nameFile}`));
+		
+		return response;
+	
+	}
+	
 
 }
