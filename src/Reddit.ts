@@ -107,6 +107,22 @@ export default class Reddit {
 		
 	}
 	
+	public async GetPostOfSubReddit(BearerToken: string, SubReddit: string, PostId: string): Promise<IPost>{
+		
+		
+		let response = await fetch(`${this.URL_API}/r/${SubReddit}/api/info?id=${PostId}&sr_name=&url=`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'Content-Type': 'application/json',
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		let result: IPost =  await response.json() as IPost;
+		return result;
+	}
+	
 	public async SearchSubReddit(BearerToken: string, Name: string) : Promise<any> {
 				
 		let response = await fetch(`${this.URL_API}/subreddits/search?q=${encodeURI(Name)}`, {
