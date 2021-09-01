@@ -3,11 +3,11 @@ export default interface IPostSubmit {
 	api_type: string;
 	extension?: string;
 	flair_id?: string;
-	flair_text?: string;,
+	flair_text?: string;
 	kind?: string;
 	nsfw?: boolean;
 	resubmit: boolean;
-	richtext_json:? string;
+	richtext_json?: string;
 	sendreplies?: string;
 	spoiler?: boolean;
 	sr: string;

@@ -143,6 +143,10 @@ export interface Gildings {
 	
 }
 
+export interface MediaMetadata {
+	
+}
+
 
 
 
