@@ -124,8 +124,10 @@ export default class Reddit {
 	}
 		
 	public async GetPostOfSubRedditByFlair(BearerToken: string, SubReddit: string, Flair: string): Promise<any>{
+				
+		let flairParam = encodeURIComponent(`flair_name:${Flair}`);
 		
-		let response = await fetch(`${this.URL_API}/r/${SubReddit}/search?q=flair_name%3A"${Flair}"&restrict_sr=true"`, {
+		let response = await fetch(`${this.URL_API}/r/${SubReddit}/search?q=${flairParam}&restrict_sr=true"`, {
 			method: 'GET',
 			headers: {
 				'Authorization': `Bearer ${BearerToken}`,
