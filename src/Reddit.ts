@@ -123,6 +123,21 @@ export default class Reddit {
 		return result;
 	}
 		
+	public async GetPostOfSubRedditByFlair(BearerToken: string, SubReddit: string, Flair: string): Promise<any>{
+		
+		let response = await fetch(`${this.URL_API}/r/${SubReddit}/search?q=flair_name%3A"${Flair}"&restrict_sr=true"`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'Content-Type': 'application/json',
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		return response.json();
+		
+	}
+	
 	public async SearchSubReddit(BearerToken: string, Name: string) : Promise<any> {
 				
 		let response = await fetch(`${this.URL_API}/subreddits/search?q=${encodeURI(Name)}`, {
