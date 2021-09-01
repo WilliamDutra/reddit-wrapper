@@ -1,15 +1,27 @@
 {
-  "name": "reddit-wrapper",
+  "name": "reddi-wrapper-api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A simple wrapper reddit api",
+  "main": "dist/Index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node_modules/.bin/ts-node src/index.ts",
     "build": "node_modules/.bin/tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+        "name": "William Dutra",
+        "email": "will.dutra26@gmail.com",
+        "url": "https://github.com/WilliamDutra"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WilliamDutra/reddit-wrapper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WilliamDutra/reddit-wrapper/issues"
+  },
+  "homepage": "url",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^16.7.1",
