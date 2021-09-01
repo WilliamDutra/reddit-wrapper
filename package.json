@@ -1,6 +1,6 @@
 {
-  "name": "reddi-wrapper-api",
-  "version": "1.0.0",
+  "name": "reddi-wrapper-api-v1",
+  "version": "1.0.1",
   "description": "A simple wrapper reddit api",
   "main": "dist/Index.js",
   "scripts": {
@@ -10,9 +10,9 @@
   },
   "keywords": [],
   "author": {
-        "name": "William Dutra",
-        "email": "will.dutra26@gmail.com",
-        "url": "https://github.com/WilliamDutra"
+    "name": "William Dutra",
+    "email": "will.dutra26@gmail.com",
+    "url": "https://github.com/WilliamDutra"
   },
   "repository": {
     "type": "git",
