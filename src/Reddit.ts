@@ -9,6 +9,7 @@ import Comment from './Models/Comment';
 
 import IPost from './Interfaces/IPost';
 import IResponse from './Interfaces/IResponse';
+import ISubRedditAbout from './Interfaces/ISubRedditAbout';
 import IAccessToken from './Interfaces/IAccessToken';
 
 export default class Reddit {
@@ -73,7 +74,7 @@ export default class Reddit {
 		return await response.json() as IAccessToken;
 	}
 	
-	public async GetInfoSubReddit(BearerToken: string, Subreddit: string) : Promise<any> {
+	public async GetInfoSubReddit(BearerToken: string, Subreddit: string) : Promise<ISubRedditAbout> {
 		
 		let response = await fetch(`${this.URL_API}/r/${Subreddit}/about`, {
 			method: 'GET',
@@ -84,8 +85,9 @@ export default class Reddit {
 			}
 		});
 			
-		return await response.json();
-		
+		let result: ISubRedditAbout =  await response.json() as ISubRedditAbout;
+		return result;	
+			
 	}
 	
 	public async  GetNewPostsOfSubReddit(BearerToken: string, Subreddit: string): Promise<IPost> {
