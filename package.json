@@ -1,8 +1,9 @@
 {
   "name": "reddi-wrapper-api-v1",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "A simple wrapper reddit api",
   "main": "dist/Index.js",
+  "types": "dist/Index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node_modules/.bin/ts-node src/index.ts",
