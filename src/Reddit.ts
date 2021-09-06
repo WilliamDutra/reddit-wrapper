@@ -217,6 +217,48 @@ export default class Reddit {
 		return response.json();
 	}
 
+	public async GetMessagesUnread(BearerToken: string) : Promise<any> {
+		
+		let response = await fetch(`${this.URL_API}/message/unread`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		return response.json();
+		
+	}
+	
+	public async GetMessagesInbox(BearerToken: string): Promise<any> {
+		
+		let response = await fetch(`${this.URL_API}/message/inbox`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		return response.json();
+		
+	}
+	
+	public async GetMessagesSent(BearerToken: string) : Promise<any> {
+		
+		let response = await fetch(`${this.URL_API}/message/sent`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		return response.json();
+		
+	}
+	
 	public async SendCommentInPost(BearerToken: string, comment: Comment) : Promise<any> {
 		
 		let UrlEnconded = new URLSearchParams();
