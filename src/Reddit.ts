@@ -8,6 +8,7 @@ import Post from './Models/Post';
 import Comment from './Models/Comment';
 
 import IPost from './Interfaces/IPost';
+import IFlair from './Interfaces/IFlair';
 import IResponse from './Interfaces/IResponse';
 import ISubRedditAbout from './Interfaces/ISubRedditAbout';
 import IAccessToken from './Interfaces/IAccessToken';
@@ -257,6 +258,20 @@ export default class Reddit {
 		
 		return response.json();
 		
+	}
+	
+	public async GetListFlairInSubReddit(BearerToken: string, Subreddit: string) : Promise<IFlair[]> {
+		
+		let response  = await fetch(`${this.URL_API}/r/${Subreddit}/api/link_flair_v2`, {
+			method: 'GET',
+			headers: {
+				'User-Agent': `${this.UserAgent}`,
+				'Authorization': `Bearer ${BearerToken}`
+			}
+		});
+		
+		let result: IFlair[] = await response.json();
+		return result;
 	}
 	
 	public async SendCommentInPost(BearerToken: string, comment: Comment) : Promise<any> {
