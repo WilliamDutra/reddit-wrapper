@@ -12,6 +12,7 @@ import IFlair from './Interfaces/IFlair';
 import IResponse from './Interfaces/IResponse';
 import ISubRedditAbout from './Interfaces/ISubRedditAbout';
 import IAccessToken from './Interfaces/IAccessToken';
+import IMentions from './Interfaces/IMentions';
 
 export default class Reddit {
 	
@@ -244,6 +245,20 @@ export default class Reddit {
 		
 		return response.json();
 		
+	}
+	
+	public async GetMentions(BearerToken: string): Promise<IMentions> {
+		
+		let response = await fetch(`${this.URL_API}/message/mentions`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+		
+		let result: IMentions =  await response.json() as IMentions;
+		return result;		
 	}
 	
 	public async GetMessagesSent(BearerToken: string) : Promise<any> {
