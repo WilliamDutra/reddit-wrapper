@@ -6,6 +6,7 @@ import { promisify }  from 'util';
 
 import Post from './Models/Post';
 import Comment from './Models/Comment';
+import Message from './Models/Message';
 
 import IPost from './Interfaces/IPost';
 import IFlair from './Interfaces/IFlair';
@@ -211,14 +212,60 @@ export default class Reddit {
 		let response = await fetch(`${this.URL_SSL}/api/login`, {
 			method: 'POST',
 			headers: {
-				'User-Agent': `${this.UserAgent}`
+				'User-Agent': `${this.UserAgent}`,
+				'X-Modhash': ''
 			},
 			body: UrlEnconded
 		});
 		
 		return response.json();
 	}
-
+	
+	public async SendPrivateMessage(BearerToken: string, message: Message) : Promise<any> {
+	
+		var urlencoded = new URLSearchParams();
+		
+		if(message.To != null)
+			urlencoded.append("to", message.To);
+		
+		if(message.Subject != null)
+			urlencoded.append("subject", message.Subject);
+			
+		if(message.Api_Type != null)
+			urlencoded.append("api_type", message.Api_Type);
+			
+		if(message.Text != null)
+			urlencoded.append("text", message.Text);
+			
+		if(message.Uh != null)
+			urlencoded.append("uh", message.Uh);
+	
+		let response = await fetch(`${this.URL_API}/api/compose`, {
+			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`
+			},
+			body: urlencoded
+		});
+				
+		return response.json();
+	
+	}
+	
+	public async GetUserInfo(BearerToken: string, Username: string) : Promise<any> {
+	
+		let response = await fetch(`${this.URL_API}/user/${Username}/overview`, {
+			method: 'GET',
+			headers: {
+				'Authorization': `Bearer ${BearerToken}`,
+				'User-Agent': `${this.UserAgent}`
+			}
+		});
+	
+		return response.json();
+		
+	}
+	
 	public async GetMessagesUnread(BearerToken: string) : Promise<any> {
 		
 		let response = await fetch(`${this.URL_API}/message/unread`, {
@@ -260,7 +307,7 @@ export default class Reddit {
 		let result: IMentions =  await response.json() as IMentions;
 		return result;		
 	}
-	
+		
 	public async GetMessagesSent(BearerToken: string) : Promise<any> {
 		
 		let response = await fetch(`${this.URL_API}/message/sent`, {
